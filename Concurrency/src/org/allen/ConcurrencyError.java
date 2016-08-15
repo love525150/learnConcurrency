@@ -15,10 +15,12 @@ public class ConcurrencyError {
 		
 		public void incr(){
 			c++;
+			System.out.println("i: "+c);
 		}
 		
 		public void decr(){
 			c--;
+			System.out.println("d: "+c);
 		}
 	}
 	
@@ -34,7 +36,7 @@ public class ConcurrencyError {
 		public void run() {
 			for(int i=0; i<100; i++){
 				c.decr();
-				System.out.println("d: "+c.getV());
+				//System.out.println("d: "+c.getV());
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
@@ -52,11 +54,12 @@ public class ConcurrencyError {
 		Thread t = new Thread(new SimpleThread(c));
 		t.start();
 		for(int i=0; i<100; i++){
-			c.incr();
-			System.out.println("i: "+c.getV());
+			//c.incr();
+			//System.out.println("d2: "+c.getV());
+			c.decr();
 			Thread.sleep(10);
 		}
-		System.out.println("--------------"+c.getV()); //the result could be 0, -1, 1 or even 2 and -2;
+		System.out.println("--------------:"+c.getV()); //the result could be 0, -1, 1 -2, 2....
 	}
 
 }
